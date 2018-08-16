@@ -1,20 +1,21 @@
 package com.mcflyboy.newPong.timing;
 
-public class Timer {
+public class TargetTimer {
 	private Timer baseTimer;
 	private boolean running;
 	private double startTime;
 	private double recordedTime;
-	public Timer() {
-		this(null);
+	private double targetTime;
+	public TargetTimer(double targetTime) {
+		this(null, targetTime);
 	}
-	public Timer(Timer baseTimer) {
-		this(baseTimer, false);
+	public TargetTimer(Timer baseTimer, double targetTime) {
+		this(baseTimer, false, targetTime);
 	}
-	public Timer(boolean running) {
-		this(null, running);
+	public TargetTimer(boolean running, double targetTime) {
+		this(null, running, targetTime);
 	}
-	public Timer(Timer baseTimer, boolean running) {
+	public TargetTimer(Timer baseTimer, boolean running, double targetTime) {
 		this.baseTimer = baseTimer;
 		if(running) {
 			start();
@@ -24,6 +25,7 @@ public class Timer {
 			startTime = 0.0;
 		}
 		recordedTime = 0.0;
+		this.targetTime = targetTime; 
 	}
 	public Timer getBaseTimer() {
 		return baseTimer;
@@ -37,6 +39,12 @@ public class Timer {
 		this.baseTimer = baseTimer;
 		reset();
 	}
+	public double getTargetTime() {
+		return targetTime;
+	}
+	public void setTargetTime(double targetTime) {
+		this.targetTime = targetTime;
+	}
 	public double getTime() {
 		if(running) {
 			return getBaseTime() - startTime;
@@ -48,6 +56,17 @@ public class Timer {
 	public void setTime(double time) {
 		startTime = getBaseTime() - time;
 		recordedTime = time;
+	}
+	public double getTimeRemaining() {
+		return targetTime - getTime();
+	}
+	public boolean isTargetReached() {
+		double currentTime = getTime();
+		boolean targetReached = currentTime >= targetTime;
+		if(targetReached) {
+			setTime(currentTime - targetTime);
+		}
+		return targetReached;
 	}
 	public void start() {
 		if(running) {

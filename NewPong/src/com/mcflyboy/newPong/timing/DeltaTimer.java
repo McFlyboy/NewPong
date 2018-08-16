@@ -22,9 +22,9 @@ public class DeltaTimer {
 		this.baseTimer = baseTimer;
 		startTime = getBaseTime();
 	}
-	public double getDeltaTime() {
+	public float getDeltaTime() {
 		double currentTime = getBaseTime();
-		double deltaTime = currentTime - startTime;
+		float deltaTime = (float)(currentTime - startTime);
 		startTime = currentTime;
 		return deltaTime;
 	}

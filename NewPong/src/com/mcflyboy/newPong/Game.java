@@ -17,7 +17,7 @@ public class Game {
 	public void start() {
 		try {
 			Framework.init();
-			Window.create(1280, 720, TITLE, true);
+			Window.create(1280, 720, TITLE, false);
 			Window.setVSync(true);
 			Render.init();
 			Render.setClearColor(0f, 0.3f, 0f);
