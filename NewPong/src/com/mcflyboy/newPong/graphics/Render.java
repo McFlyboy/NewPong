@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
 
 import com.mcflyboy.newPong.entity.entities.AppearanceEntity;
-import com.mcflyboy.newPong.entity.properties.Appearance;
+import com.mcflyboy.newPong.entity.entities.ModelEntity;
 import com.mcflyboy.newPong.entity.properties.appearances.ModelAppearance;
 import com.mcflyboy.newPong.graphics.shading.shaders.Shader;
 import com.mcflyboy.newPong.math.Color3f;
@@ -29,9 +29,8 @@ public class Render {
 		glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
 	}
 	public static void render(AppearanceEntity entity) {
-		Appearance appearance = entity.getAppearance();
-		if(appearance instanceof ModelAppearance) {
-			ModelAppearance ma = (ModelAppearance)appearance;
+		if(entity instanceof ModelEntity) {
+			ModelAppearance ma = ((ModelEntity)entity).getModelAppearance();
 			Model model = ma.getModel();
 			model.bind();
 			glEnableVertexAttribArray(0);

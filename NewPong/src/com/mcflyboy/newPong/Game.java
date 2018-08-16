@@ -2,8 +2,7 @@ package com.mcflyboy.newPong;
 
 import java.awt.image.BufferedImage;
 
-import com.mcflyboy.newPong.entity.entities.AppearanceEntity;
-import com.mcflyboy.newPong.entity.properties.appearances.ModelAppearance;
+import com.mcflyboy.newPong.entity.entities.ModelEntity;
 import com.mcflyboy.newPong.graphics.Model;
 import com.mcflyboy.newPong.graphics.Models;
 import com.mcflyboy.newPong.graphics.Render;
@@ -14,22 +13,21 @@ public class Game {
 	public static final String TITLE = "NewPong";
 	private Model square;
 	private Texture texture;
-	private AppearanceEntity test;
+	private ModelEntity test;
 	public void start() {
 		try {
 			Framework.init();
-			Window.create(1280, 720, TITLE);
+			Window.create(1280, 720, TITLE, true);
+			Window.setVSync(true);
 			Render.init();
 			Render.setClearColor(0f, 0.3f, 0f);
 			square = Models.createSquare();
 			BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 			img.setRGB(0, 0, 0xffffff);
 			texture = new Texture(img);
-			test = new AppearanceEntity();
-			ModelAppearance appearance = new ModelAppearance();
-			appearance.setTexture(texture);
-			appearance.setModel(square);
-			test.setAppearance(appearance);
+			test = new ModelEntity();
+			test.getModelAppearance().setTexture(texture);
+			test.getModelAppearance().setModel(square);
 		}
 		catch(Exception e) {
 			ErrorHandler.println("-- Failed during startup! --\n");

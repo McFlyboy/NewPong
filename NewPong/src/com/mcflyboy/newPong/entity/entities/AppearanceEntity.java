@@ -3,16 +3,16 @@ package com.mcflyboy.newPong.entity.entities;
 import com.mcflyboy.newPong.entity.Entity;
 import com.mcflyboy.newPong.entity.properties.Appearance;
 
-public class AppearanceEntity extends Entity {
+public abstract class AppearanceEntity extends Entity {
 	private Appearance appearance;
 	public AppearanceEntity() {
 		super();
 		appearance = null;
 	}
-	public Appearance getAppearance() {
+	protected Appearance getAppearance() {
 		return appearance;
 	}
-	public void setAppearance(Appearance appearance) {
+	protected void setAppearance(Appearance appearance) {
 		this.appearance = appearance;
 	}
 }

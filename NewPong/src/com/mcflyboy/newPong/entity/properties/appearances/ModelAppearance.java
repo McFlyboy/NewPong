@@ -13,11 +13,11 @@ public class ModelAppearance extends Appearance {
 		texture = null;
 	}
 	@Override
-	protected float getUnscaledWidth() {
+	public float getUnscaledWidth() {
 		return model.getWidth();
 	}
 	@Override
-	protected float getUnscaledHeight() {
+	public float getUnscaledHeight() {
 		return model.getHeight();
 	}
 	public Model getModel() {
