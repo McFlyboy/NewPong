@@ -9,7 +9,7 @@ public abstract class AppearanceEntity extends Entity {
 		super();
 		appearance = null;
 	}
-	protected Appearance getAppearance() {
+	public Appearance getAppearance() {
 		return appearance;
 	}
 	protected void setAppearance(Appearance appearance) {

@@ -1,33 +1,34 @@
 package com.mcflyboy.newPong;
 
-import java.awt.image.BufferedImage;
-
 import com.mcflyboy.newPong.entity.entities.ModelEntity;
-import com.mcflyboy.newPong.graphics.Model;
-import com.mcflyboy.newPong.graphics.Models;
 import com.mcflyboy.newPong.graphics.Render;
-import com.mcflyboy.newPong.graphics.Texture;
+import com.mcflyboy.newPong.graphics.model.Model;
+import com.mcflyboy.newPong.graphics.model.models.SquareModel;
+import com.mcflyboy.newPong.graphics.texture.Texture;
+import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
+import com.mcflyboy.newPong.math.Color3f;
+import com.mcflyboy.newPong.timing.DeltaTimer;
 import com.mcflyboy.newPong.timing.Time;
 
 public class Game {
 	public static final String TITLE = "NewPong";
+	private DeltaTimer systemDelta;
 	private Model square;
-	private Texture texture;
+	private Texture white;
 	private ModelEntity test;
 	public void start() {
 		try {
 			Framework.init();
 			Window.create(1280, 720, TITLE, false);
-			Window.setVSync(true);
+			Window.setVSync(false);
 			Render.init();
-			Render.setClearColor(0f, 0.3f, 0f);
-			square = Models.createSquare();
-			BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-			img.setRGB(0, 0, 0xffffff);
-			texture = new Texture(img);
+			systemDelta = new DeltaTimer();
+			square = SquareModel.getInstance();
+			white = WhiteTexture.getInstance();
 			test = new ModelEntity();
-			test.getModelAppearance().setTexture(texture);
+			test.getModelAppearance().setTexture(white);
 			test.getModelAppearance().setModel(square);
+			test.getModelAppearance().setColor(new Color3f(0f, 1f, 0f));
 		}
 		catch(Exception e) {
 			ErrorHandler.println("-- Failed during startup! --\n");
@@ -39,9 +40,24 @@ public class Game {
 	}
 	private void run() {
 		try {
+			double targetFrameTime = 1.0 / Window.getMonitorRefreshRate();
+			double renderTimeRemaining = 0.0;
+			systemDelta.getDeltaTime();
 			while(!Window.shouldClose()) {
-				update();
-				render();
+				boolean renderReady = false;
+				float deltaTime = systemDelta.getDeltaTime();
+				update(deltaTime);
+				if(renderTimeRemaining <= 0.0) {
+					renderReady = true;
+					renderTimeRemaining += targetFrameTime;
+				}
+				renderTimeRemaining -= (double)deltaTime;
+				if(renderReady) {
+					render();
+				}
+				else {
+					Thread.sleep(1L);
+				}
 			}
 		}
 		catch(Exception e) {
@@ -51,9 +67,8 @@ public class Game {
 		}
 		stop();
 	}
-	private void update() {
-		System.out.println(Time.getFPS());
-		test.getPosition().x += 0.001f;
+	private void update(float deltaTime) {
+		
 	}
 	private void render() {
 		Render.clear();
@@ -64,7 +79,7 @@ public class Game {
 	private void stop() {
 		try {
 			square.dispose();
-			texture.dispose();
+			white.dispose();
 			Render.terminate();
 			Window.destroy();
 			Framework.terminate();

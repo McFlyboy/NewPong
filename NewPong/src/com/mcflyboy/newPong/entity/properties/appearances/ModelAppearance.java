@@ -1,8 +1,8 @@
 package com.mcflyboy.newPong.entity.properties.appearances;
 
 import com.mcflyboy.newPong.entity.properties.Appearance;
-import com.mcflyboy.newPong.graphics.Model;
-import com.mcflyboy.newPong.graphics.Texture;
+import com.mcflyboy.newPong.graphics.model.Model;
+import com.mcflyboy.newPong.graphics.texture.Texture;
 
 public class ModelAppearance extends Appearance {
 	private Model model;

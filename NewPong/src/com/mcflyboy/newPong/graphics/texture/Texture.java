@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.graphics;
+package com.mcflyboy.newPong.graphics.texture;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -18,7 +18,22 @@ public class Texture {
 	 * 
 	 * @param img Must be {@code TYPE_INT_ARGB}
 	 */
+	protected Texture() {
+		
+	}
 	public Texture(BufferedImage img) {
+		setImage(img);
+	}
+	public int getHandle() {
+		return handle;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	protected void setImage(BufferedImage img) {
 		width = img.getWidth();
 		height = img.getHeight();
 		AffineTransform transform = AffineTransform.getScaleInstance(1f, -1f);
@@ -44,15 +59,6 @@ public class Texture {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-	public int getHandle() {
-		return handle;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
 	}
 	public void dispose() {
 		glDeleteTextures(handle);
