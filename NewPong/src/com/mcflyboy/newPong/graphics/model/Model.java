@@ -43,12 +43,12 @@ public class Model {
 		float highestX = 0f, lowestX = 0f, highestY = 0f, lowestY = 0f;
 		for(int i = 0; i < vertices.length; i++) {
 			if(i % 2 == 0) {
-				highestX = Math.max(highestX, i);
-				lowestX = Math.min(lowestX, i);
+				highestX = Math.max(highestX, vertices[i]);
+				lowestX = Math.min(lowestX, vertices[i]);
 			}
 			else {
-				highestY = Math.max(highestY, i);
-				lowestY = Math.min(lowestY, i);
+				highestY = Math.max(highestY, vertices[i]);
+				lowestY = Math.min(lowestY, vertices[i]);
 			}
 		}
 		width = highestX - lowestX;

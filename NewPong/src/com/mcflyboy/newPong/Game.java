@@ -1,34 +1,35 @@
 package com.mcflyboy.newPong;
 
-import com.mcflyboy.newPong.entity.entities.ModelEntity;
+import com.mcflyboy.newPong.entity.entities.gameEntities.Ball;
+import com.mcflyboy.newPong.entity.entities.gameEntities.Player;
 import com.mcflyboy.newPong.graphics.Render;
-import com.mcflyboy.newPong.graphics.model.Model;
 import com.mcflyboy.newPong.graphics.model.models.SquareModel;
-import com.mcflyboy.newPong.graphics.texture.Texture;
 import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
-import com.mcflyboy.newPong.math.Color3f;
+import com.mcflyboy.newPong.input.Keyboard;
+import com.mcflyboy.newPong.input.Mouse;
+import com.mcflyboy.newPong.math.collision.AABB;
 import com.mcflyboy.newPong.timing.DeltaTimer;
 import com.mcflyboy.newPong.timing.Time;
 
 public class Game {
 	public static final String TITLE = "NewPong";
 	private DeltaTimer systemDelta;
-	private Model square;
-	private Texture white;
-	private ModelEntity test;
+	private Player player;
+	private Ball ball;
 	public void start() {
 		try {
 			Framework.init();
 			Window.create(1280, 720, TITLE, false);
 			Window.setVSync(false);
+			Mouse.hideCursor(true);
+			Keyboard.init();
 			Render.init();
+			Render.setClearColor(0f, 0.05f, 0f);
 			systemDelta = new DeltaTimer();
-			square = SquareModel.getInstance();
-			white = WhiteTexture.getInstance();
-			test = new ModelEntity();
-			test.getModelAppearance().setTexture(white);
-			test.getModelAppearance().setModel(square);
-			test.getModelAppearance().setColor(new Color3f(0f, 1f, 0f));
+			player = new Player();
+			player.getAppearance().getColor().r = 1f;
+			ball = new Ball();
+			ball.getPosition().x = -0.5f;
 		}
 		catch(Exception e) {
 			ErrorHandler.println("-- Failed during startup! --\n");
@@ -68,18 +69,34 @@ public class Game {
 		stop();
 	}
 	private void update(float deltaTime) {
-		
+		float deltaX = 0f, deltaY = 0f;
+		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+			deltaY += 1f;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			deltaY -= 1f;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+			deltaX += 1f;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
+			deltaX -= 1f;
+		}
+		player.getPosition().x += deltaX * deltaTime;
+		player.getPosition().y += deltaY * deltaTime;
+		System.out.println(AABB.checkIntersection(player, ball));
 	}
 	private void render() {
 		Render.clear();
-		Render.render(test);
+		Render.render(player);
+		Render.render(ball);
 		Window.update();
 		Time.updateFPS();
 	}
 	private void stop() {
 		try {
-			square.dispose();
-			white.dispose();
+			SquareModel.getInstance().dispose();
+			WhiteTexture.getInstance().dispose();
 			Render.terminate();
 			Window.destroy();
 			Framework.terminate();
