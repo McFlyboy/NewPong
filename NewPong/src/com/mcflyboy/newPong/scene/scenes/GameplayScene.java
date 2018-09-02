@@ -17,8 +17,8 @@ public class GameplayScene extends Scene {
 		player = new Player();
 		player.getPosition().x = -0.5f;
 		ball = new Ball();
-		ball.getDirection().x = -0.25f;
-		ball.getDirection().y = -0.25f;
+		ball.getDirection().x = -0.5f;
+		ball.getDirection().y = -0.5f;
 	}
 	@Override
 	protected void update(float deltaTime) {
@@ -75,8 +75,8 @@ public class GameplayScene extends Scene {
 		if(AABB.checkIntersection(player, ball)) {
 			ball.getPosition().x = 0;
 			ball.getPosition().y = 0;
-			ball.getDirection().x = -0.125f;
-			ball.getDirection().y = -0.125f;
+			ball.getDirection().x = -0.5f;
+			ball.getDirection().y = -0.5f;
 		}
 	}
 	@Override
