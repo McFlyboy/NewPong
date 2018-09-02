@@ -23,6 +23,9 @@ public class Render {
 	public static void setClearColor(Color3f color) {
 		setClearColor(color.r, color.g, color.b);
 	}
+	public static void setClearColor(int color) {
+		glClearColor((float)((color >> 16) & 0xff) / 255f, (float)((color >> 8) & 0xff) / 255f, (float)(color & 0xff) / 255f, 1f);
+	}
 	public static void setClearColor(float red, float green, float blue) {
 		glClearColor(red, green, blue, 1f);
 	}

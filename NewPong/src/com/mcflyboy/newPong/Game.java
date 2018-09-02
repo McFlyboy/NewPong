@@ -1,21 +1,19 @@
 package com.mcflyboy.newPong;
 
-import com.mcflyboy.newPong.entity.entities.gameEntities.Ball;
-import com.mcflyboy.newPong.entity.entities.gameEntities.Player;
 import com.mcflyboy.newPong.graphics.Render;
 import com.mcflyboy.newPong.graphics.model.models.SquareModel;
 import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
+import com.mcflyboy.newPong.input.Gamepads;
 import com.mcflyboy.newPong.input.Keyboard;
 import com.mcflyboy.newPong.input.Mouse;
-import com.mcflyboy.newPong.math.collision.AABB;
+import com.mcflyboy.newPong.scene.GameplayScene;
 import com.mcflyboy.newPong.timing.DeltaTimer;
 import com.mcflyboy.newPong.timing.Time;
 
 public class Game {
 	public static final String TITLE = "NewPong";
 	private DeltaTimer systemDelta;
-	private Player player;
-	private Ball ball;
+	private GameplayScene scene;
 	public void start() {
 		try {
 			Framework.init();
@@ -23,13 +21,12 @@ public class Game {
 			Window.setVSync(false);
 			Mouse.hideCursor(true);
 			Keyboard.init();
+			Gamepads.create();
 			Render.init();
-			Render.setClearColor(0f, 0.05f, 0f);
+			Render.setClearColor(0.0125f, 0.05f, 0f);
 			systemDelta = new DeltaTimer();
-			player = new Player();
-			player.getAppearance().getColor().r = 1f;
-			ball = new Ball();
-			ball.getPosition().x = -0.5f;
+			scene = new GameplayScene(null);
+			scene.start();
 		}
 		catch(Exception e) {
 			ErrorHandler.println("-- Failed during startup! --\n");
@@ -46,19 +43,19 @@ public class Game {
 			systemDelta.getDeltaTime();
 			while(!Window.shouldClose()) {
 				boolean renderReady = false;
-				float deltaTime = systemDelta.getDeltaTime();
-				update(deltaTime);
+				update();
 				if(renderTimeRemaining <= 0.0) {
 					renderReady = true;
 					renderTimeRemaining += targetFrameTime;
 				}
-				renderTimeRemaining -= (double)deltaTime;
+				renderTimeRemaining -= (double)systemDelta.getDeltaTime();
 				if(renderReady) {
 					render();
 				}
 				else {
 					Thread.sleep(1L);
 				}
+				Time.updatePerSecondCounters();
 			}
 		}
 		catch(Exception e) {
@@ -68,36 +65,23 @@ public class Game {
 		}
 		stop();
 	}
-	private void update(float deltaTime) {
-		float deltaX = 0f, deltaY = 0f;
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			deltaY += 1f;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			deltaY -= 1f;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			deltaX += 1f;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			deltaX -= 1f;
-		}
-		player.getPosition().x += deltaX * deltaTime;
-		player.getPosition().y += deltaY * deltaTime;
-		System.out.println(AABB.checkIntersection(player, ball));
+	private void update() {
+		scene.update();
+		Time.addToUPS();
 	}
 	private void render() {
 		Render.clear();
-		Render.render(player);
-		Render.render(ball);
+		scene.render();
 		Window.update();
-		Time.updateFPS();
+		Time.addToFPS();
 	}
 	private void stop() {
 		try {
+			scene.dispose();
 			SquareModel.getInstance().dispose();
 			WhiteTexture.getInstance().dispose();
 			Render.terminate();
+			Gamepads.destroy();
 			Window.destroy();
 			Framework.terminate();
 		}

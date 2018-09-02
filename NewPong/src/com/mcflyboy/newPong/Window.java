@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 public class Window {
+	public static final float ASPECT_RATIO = 16f / 9f;
 	private static boolean created = false;
 	private static long monitor = 0L;
 	private static GLFWVidMode vidmode = null;

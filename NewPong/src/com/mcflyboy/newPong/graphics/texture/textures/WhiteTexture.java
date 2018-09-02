@@ -4,18 +4,17 @@ import java.awt.image.BufferedImage;
 
 import com.mcflyboy.newPong.graphics.texture.Texture;
 
-public class WhiteTexture extends Texture {
+public class WhiteTexture {
 	private static Texture instance;
-	private WhiteTexture() {
-		super();
-		BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-		img.setRGB(0, 0, 0xffffff);
-		super.setImage(img);
-	}
 	public static Texture getInstance() {
 		if(instance == null) {
-			instance = new WhiteTexture();
+			instance = create();
 		}
 		return instance;
+	}
+	private static Texture create() {
+		BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+		img.setRGB(0, 0, 0xffffff);
+		return new Texture(img);
 	}
 }
