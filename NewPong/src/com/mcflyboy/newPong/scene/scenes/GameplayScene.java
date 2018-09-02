@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.scene;
+package com.mcflyboy.newPong.scene.scenes;
 
 import com.mcflyboy.newPong.Window;
 import com.mcflyboy.newPong.entity.entities.gameEntities.Ball;
@@ -6,6 +6,7 @@ import com.mcflyboy.newPong.entity.entities.gameEntities.Player;
 import com.mcflyboy.newPong.graphics.Render;
 import com.mcflyboy.newPong.input.Keyboard;
 import com.mcflyboy.newPong.math.collision.AABB;
+import com.mcflyboy.newPong.scene.Scene;
 import com.mcflyboy.newPong.timing.Timer;
 
 public class GameplayScene extends Scene {

@@ -6,7 +6,7 @@ import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
 import com.mcflyboy.newPong.input.Gamepads;
 import com.mcflyboy.newPong.input.Keyboard;
 import com.mcflyboy.newPong.input.Mouse;
-import com.mcflyboy.newPong.scene.GameplayScene;
+import com.mcflyboy.newPong.scene.scenes.GameplayScene;
 import com.mcflyboy.newPong.timing.DeltaTimer;
 import com.mcflyboy.newPong.timing.Time;
 
