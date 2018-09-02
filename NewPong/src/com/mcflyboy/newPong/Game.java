@@ -6,14 +6,14 @@ import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
 import com.mcflyboy.newPong.input.Gamepads;
 import com.mcflyboy.newPong.input.Keyboard;
 import com.mcflyboy.newPong.input.Mouse;
-import com.mcflyboy.newPong.scene.scenes.GameplayScene;
+import com.mcflyboy.newPong.scene.scenes.MasterScene;
 import com.mcflyboy.newPong.timing.DeltaTimer;
 import com.mcflyboy.newPong.timing.Time;
 
 public class Game {
 	public static final String TITLE = "NewPong";
 	private DeltaTimer systemDelta;
-	private GameplayScene scene;
+	private MasterScene scene;
 	public void start() {
 		try {
 			Framework.init();
@@ -25,7 +25,7 @@ public class Game {
 			Render.init();
 			Render.setClearColor(0.0125f, 0.05f, 0f);
 			systemDelta = new DeltaTimer();
-			scene = new GameplayScene(null);
+			scene = new MasterScene(null);
 			scene.start();
 		}
 		catch(Exception e) {
