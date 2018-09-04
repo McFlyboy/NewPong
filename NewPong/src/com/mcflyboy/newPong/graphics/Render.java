@@ -44,7 +44,7 @@ public class Render {
 			shader.loadAppearace(ma);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, ma.getTexture().getHandle());
-			glDrawArrays(GL_QUADS, 0, model.getVertexCount());
+			glDrawArrays(model.isLines() ? GL_LINES : GL_QUADS, 0, model.getVertexCount());
 			glDisableVertexAttribArray(0);
 			glDisableVertexAttribArray(1);
 			Model.unbind();

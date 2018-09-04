@@ -1,10 +1,15 @@
 package com.mcflyboy.newPong.scene.scenes;
 
 import com.mcflyboy.newPong.Window;
+import com.mcflyboy.newPong.entity.entities.ModelEntity;
 import com.mcflyboy.newPong.entity.entities.gameEntities.Ball;
 import com.mcflyboy.newPong.entity.entities.gameEntities.Player;
 import com.mcflyboy.newPong.graphics.Render;
+import com.mcflyboy.newPong.graphics.model.models.StageModel;
+import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
 import com.mcflyboy.newPong.input.Keyboard;
+import com.mcflyboy.newPong.math.Color3f;
+import com.mcflyboy.newPong.math.Vector2f;
 import com.mcflyboy.newPong.math.collision.AABB;
 import com.mcflyboy.newPong.scene.Scene;
 import com.mcflyboy.newPong.timing.Timer;
@@ -12,16 +17,28 @@ import com.mcflyboy.newPong.timing.Timer;
 public class GameplayScene extends Scene {
 	private Player player;
 	private Ball ball;
+	private ModelEntity stage;
 	public GameplayScene(Timer baseTimer) {
 		super(baseTimer);
 		player = new Player();
-		player.getPosition().x = -0.5f;
+		player.getPosition().x = -1.35f;
 		ball = new Ball();
 		ball.getDirection().x = -0.5f;
 		ball.getDirection().y = -0.5f;
+		stage = new ModelEntity();
+		stage.getModelAppearance().setModel(StageModel.getInstance());
+		stage.getModelAppearance().setTexture(WhiteTexture.getInstance());
+		stage.getModelAppearance().setColor(new Color3f(ball.getAppearance().getColor()));
+		stage.getModelAppearance().setScale(new Vector2f(Window.ASPECT_RATIO, Window.ASPECT_RATIO * 9f / 21f).getMul(0.9f));
+		stage.getPosition().y = -0.2f;
+		ball.getPosition().y = stage.getPosition().y;
+		player.getPosition().y = stage.getPosition().y;
 	}
 	@Override
 	protected void update(float deltaTime) {
+		if(Keyboard.isKeyPressed(Keyboard.KEY_ESCAPE)) {
+			Window.close();
+		}
 		player.getDirection().x = 0f;
 		player.getDirection().y = 0f;
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
@@ -61,31 +78,38 @@ public class GameplayScene extends Scene {
 		}
 		player.getPosition().y += player.getDirection().y * deltaTime;
 		
-		//Ball to wall collision
-		if(Math.abs(ball.getPosition().x) >= Window.ASPECT_RATIO - ball.getAppearance().getWidth() / 2f) {
+		//Ball to stage collision
+		if(Math.abs(ball.getPosition().x) >= stage.getModelAppearance().getWidth() / 2f - ball.getAppearance().getWidth() / 2f) {
 			ball.getDirection().x *= -1f;
-			ball.getPosition().x *= (Window.ASPECT_RATIO  - ball.getAppearance().getWidth() / 2f) / Math.abs(ball.getPosition().x);
+			ball.getPosition().x *= (stage.getModelAppearance().getWidth() / 2f  - ball.getAppearance().getWidth() / 2f) / Math.abs(ball.getPosition().x);
 		}
-		if(Math.abs(ball.getPosition().y) >= 1f - ball.getAppearance().getHeight() / 2f) {
-			ball.getDirection().y *= -1f;
-			ball.getPosition().y *= (1f - ball.getAppearance().getHeight() / 2f) / Math.abs(ball.getPosition().y);
+		float stageTop = stage.getPosition().y + stage.getModelAppearance().getHeight() / 2f - ball.getModelAppearance().getHeight() / 2f;
+		if(ball.getPosition().y >= stageTop) {
+			ball.getDirection().y *= -1;
+			ball.getPosition().y = stageTop;
+		}
+		float stageBottom = stage.getPosition().y - stage.getModelAppearance().getHeight() / 2f + ball.getModelAppearance().getHeight() / 2f;
+		if(ball.getPosition().y <= stageBottom) {
+			ball.getDirection().y *= -1;
+			ball.getPosition().y = stageBottom;
 		}
 		
 		//Check if ball is being crushed
 		if(AABB.checkIntersection(player, ball)) {
 			ball.getPosition().x = 0;
-			ball.getPosition().y = 0;
+			ball.getPosition().y = stage.getPosition().y;
 			ball.getDirection().x = -0.5f;
 			ball.getDirection().y = -0.5f;
 		}
 	}
 	@Override
 	public void render() {
+		Render.render(stage);
 		Render.render(player);
 		Render.render(ball);
 	}
 	@Override
 	public void dispose() {
-		
+		stage.getModelAppearance().getModel().dispose();
 	}
 }

@@ -9,6 +9,7 @@ public class Model {
 	private int vao;
 	private List<Integer> vbos;
 	private int vertexCount;
+	private boolean lines;
 	private float width;
 	private float height;
 	public Model() {
@@ -16,11 +17,18 @@ public class Model {
 		bind();
 		vbos = new ArrayList<Integer>();
 		vertexCount = 0;
+		lines = false;
 		width = 0f;
 		height = 0f;
 	}
 	public int getVertexCount() {
 		return vertexCount;
+	}
+	public boolean isLines() {
+		return lines;
+	}
+	public void setLines(boolean lines) {
+		this.lines = lines;
 	}
 	public float getWidth() {
 		return width;
