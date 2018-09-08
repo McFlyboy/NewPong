@@ -17,12 +17,13 @@ import com.mcflyboy.newPong.scene.Scene;
 import com.mcflyboy.newPong.timing.Timer;
 
 public class GameplayScene extends Scene {
+	private Gamepad gamepad;
 	private Player player;
 	private Ball ball;
 	private ModelEntity stage;
-	private Gamepad gamepad;
 	public GameplayScene(Timer baseTimer) {
 		super(baseTimer);
+		gamepad = Gamepads.createGamepad(0);
 		player = new Player();
 		player.getPosition().x = -1.35f;
 		ball = new Ball();
@@ -36,31 +37,15 @@ public class GameplayScene extends Scene {
 		stage.getPosition().y = -0.2f;
 		ball.getPosition().y = stage.getPosition().y;
 		player.getPosition().y = stage.getPosition().y;
-		gamepad = Gamepads.createGamePad(0);
 	}
 	@Override
 	protected void update(float deltaTime) {
 		if(Keyboard.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			Window.close();
 		}
-		gamepad.update();
-		if(gamepad.isButtonDown(Gamepad.BUTTON_A)) {
-			System.out.println("Pressed!");
-		}
+		Gamepads.update();
 		player.getDirection().x = 0f;
-		player.getDirection().y = 0f;
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			player.getDirection().y += 1f;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			player.getDirection().y -= 1f;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			player.getDirection().x += 1f;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			player.getDirection().x -= 1f;
-		}
+		player.getDirection().y = gamepad.getAxisState(Gamepad.AXIS_LEFT_Y) * 2f;
 		
 		//X-axis collision
 		if(AABB.checkMoveXIntersection(player, ball, deltaTime)) {

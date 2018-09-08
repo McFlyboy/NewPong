@@ -7,6 +7,8 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.glfw.GLFWGamepadState;
 
+import com.mcflyboy.newPong.Window;
+
 public class Gamepad {
 	
 	/** Gamepad buttons. */
@@ -47,19 +49,45 @@ public class Gamepad {
 		CHANGED   = 2,
 		UNCHANGED = 1;
 	
+	private static float stickThreshold = 0.1f;
+	private static float triggerThreshold = 0f;
+	
 	private int jid;
 	private int[] buttonStates;
 	private float[] axisStates;
+	private int lastButtonPressed;
 	public Gamepad(int jid) {
 		this.jid = jid;
 		buttonStates = new int[15];
 		axisStates = new float[6];
+		resetLastButtonPressed();
+	}
+	public static float getStickThreshold() {
+		return stickThreshold;
+	}
+	public static void setStickThreshold(float stickThreshold) {
+		Gamepad.stickThreshold = stickThreshold;
+	}
+	public static float getTriggerThreshold() {
+		return triggerThreshold;
+	}
+	public static void setTriggerThreshold(float triggerThreshold) {
+		Gamepad.triggerThreshold = triggerThreshold;
+	}
+	public int getJID() {
+		return jid;
 	}
 	public String getName() {
 		return glfwGetGamepadName(jid);
 	}
 	public boolean isPresent() {
 		return glfwJoystickPresent(jid);
+	}
+	public int getLastButtonPressed() {
+		return lastButtonPressed;
+	}
+	public void resetLastButtonPressed() {
+		lastButtonPressed = -1;
 	}
 	public boolean isButtonPressed(int button) {
 		return getButtonState(button) == (GLFW_PRESS | CHANGED);
@@ -75,26 +103,51 @@ public class Gamepad {
 	public float getAxisState(int axis) {
 		return axisStates[axis];
 	}
-	//TODO: Fix axis-values. Add more methods to Gamepad. Drop all inputs when Window is not focused. Handle deletion of gamepads.
-	public void update() {
-		GLFWGamepadState stateContainer = Gamepads.getStateContainer();
-		glfwGetGamepadState(jid, stateContainer);
-		ByteBuffer buttonBuffer = stateContainer.buttons();
+	public void resetButtonStates() {
+		for(int i = 0; i < buttonStates.length; i++) {
+			buttonStates[i] = GLFW_RELEASE;
+		}
+	}
+	public void resetAxisStates() {
+		for(int i = 0; i < axisStates.length; i++) {
+			axisStates[i] = 0f;
+		}
+	}
+	public void update(GLFWGamepadState state) {
+		if(!Window.isFocused()) {
+			resetButtonStates();
+			resetAxisStates();
+			return;
+		}
+		glfwGetGamepadState(jid, state);
+		ByteBuffer buttonBuffer = state.buttons();
 		int button = 0;
 		while(buttonBuffer.hasRemaining()) {
 			int buttonState = (int)buttonBuffer.get();
 			if((buttonStates[button] & UNCHANGED) == GLFW_RELEASE && buttonState == GLFW_PRESS) {
 				buttonStates[button] = buttonState | CHANGED;
+				lastButtonPressed = button;
 			}
 			else if((buttonStates[button] & UNCHANGED) == GLFW_PRESS && buttonState == GLFW_RELEASE) {
 				buttonStates[button] = buttonState | CHANGED;
 			}
 			button++;
 		}
-		FloatBuffer axesBuffer = stateContainer.axes();
+		FloatBuffer axesBuffer = state.axes();
 		int axis = 0;
 		while(axesBuffer.hasRemaining()) {
-			axisStates[axis] = axesBuffer.get();
+			float axisState = axesBuffer.get();
+			if(axis > 3) {
+				axisState /= 2f;
+				axisState += 0.5f;
+				axisStates[axis] = Math.abs(axisState) > triggerThreshold ? axisState : 0f;
+			}
+			else {
+				if(axis == 1 || axis == 3) {
+					axisState *= -1f;
+				}
+				axisStates[axis] = Math.abs(axisState) > stickThreshold ? axisState : 0f;
+			}
 			axis++;
 		}
 	}

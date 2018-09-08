@@ -12,10 +12,12 @@ import org.lwjgl.system.MemoryStack;
 
 public class Window {
 	public static final float ASPECT_RATIO = 16f / 9f;
+	
 	private static boolean created = false;
 	private static long monitor = 0L;
 	private static GLFWVidMode vidmode = null;
 	private static long handle = 0L;
+	private static boolean focused = false;
 	private static boolean vsync = false;
 	public static boolean isCreated() {
 		return created;
@@ -23,11 +25,18 @@ public class Window {
 	public static long getHandle() {
 		return handle;
 	}
+	public static boolean isFocused() {
+		return focused;
+	}
 	public static boolean isFullscreen() {
 		return getFullscreenMonitor() != NULL;
 	}
 	public static boolean isVSync() {
 		return vsync;
+	}
+	public static void setVSync(boolean vsync) {
+		Window.vsync = vsync;
+		glfwSwapInterval(vsync ? 1 : 0);
 	}
 	public static int getMonitorWidth() {
 		return vidmode.width();
@@ -64,6 +73,9 @@ public class Window {
 		if(!fullscreen) {
 			center();
 		}
+		glfwSetWindowFocusCallback(handle, (long window, boolean focused) -> {
+			Window.focused = focused;
+		});
 		glfwMakeContextCurrent(handle);
 		GL.createCapabilities();
 		glfwShowWindow(handle);
@@ -80,10 +92,6 @@ public class Window {
 			glfwGetWindowSize(handle, widthBuffer, heightBuffer);
 			glfwSetWindowPos(handle, (vidmode.width() - widthBuffer.get()) / 2, (vidmode.height() - heightBuffer.get()) / 2);
 		}
-	}
-	public static void setVSync(boolean vsync) {
-		Window.vsync = vsync;
-		glfwSwapInterval(vsync ? 1 : 0);
 	}
 	public static void destroy() {
 		if(!created) {
