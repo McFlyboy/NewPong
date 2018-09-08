@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.input;
+package com.mcflyboy.newPong.input.devices;
 
 import static org.lwjgl.glfw.GLFW.*;
 

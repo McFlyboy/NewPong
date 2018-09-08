@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.input;
+package com.mcflyboy.newPong.input.devices;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -138,8 +138,8 @@ public class Keyboard {
 	
 	/** Value changes. */
 	private static final int
-		CHANGE   = 2,
-		UNCHANGE = 1;
+		CHANGED   = 2,
+		UNCHANGED = 1;
 	
 	private static int[] keyStates;
 	private static int lastKeyPressed;
@@ -150,14 +150,14 @@ public class Keyboard {
 		lastKeyPressed = 0;
 	}
 	public static boolean isKeyPressed(int key) {
-		return getKeyState(key) == (GLFW_PRESS | CHANGE);
+		return getKeyState(key) == (GLFW_PRESS | CHANGED);
 	}
 	public static boolean isKeyDown(int key) {
-		return (getKeyState(key) & UNCHANGE) == GLFW_PRESS;
+		return (getKeyState(key) & UNCHANGED) == GLFW_PRESS;
 	}
 	private static int getKeyState(int key) {
 		int keyState = keyStates[key];
-		keyStates[key] &= UNCHANGE;
+		keyStates[key] &= UNCHANGED;
 		return keyState;
 	}
 	public static void resetKeyStates() {
@@ -172,7 +172,7 @@ public class Keyboard {
 			if(key == KEY_UNKNOWN || action == GLFW_REPEAT) {
 				return;
 			}
-			keyStates[key] = action | CHANGE;
+			keyStates[key] = action | CHANGED;
 			if(action == GLFW_PRESS) {
 				lastKeyPressed = key;
 			}

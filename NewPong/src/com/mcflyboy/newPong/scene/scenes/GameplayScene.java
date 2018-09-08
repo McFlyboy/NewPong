@@ -7,7 +7,9 @@ import com.mcflyboy.newPong.entity.entities.gameEntities.Player;
 import com.mcflyboy.newPong.graphics.Render;
 import com.mcflyboy.newPong.graphics.model.models.StageModel;
 import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
-import com.mcflyboy.newPong.input.Keyboard;
+import com.mcflyboy.newPong.input.devices.Gamepad;
+import com.mcflyboy.newPong.input.devices.Gamepads;
+import com.mcflyboy.newPong.input.devices.Keyboard;
 import com.mcflyboy.newPong.math.Color3f;
 import com.mcflyboy.newPong.math.Vector2f;
 import com.mcflyboy.newPong.math.collision.AABB;
@@ -18,6 +20,7 @@ public class GameplayScene extends Scene {
 	private Player player;
 	private Ball ball;
 	private ModelEntity stage;
+	private Gamepad gamepad;
 	public GameplayScene(Timer baseTimer) {
 		super(baseTimer);
 		player = new Player();
@@ -33,11 +36,16 @@ public class GameplayScene extends Scene {
 		stage.getPosition().y = -0.2f;
 		ball.getPosition().y = stage.getPosition().y;
 		player.getPosition().y = stage.getPosition().y;
+		gamepad = Gamepads.createGamePad(0);
 	}
 	@Override
 	protected void update(float deltaTime) {
 		if(Keyboard.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			Window.close();
+		}
+		gamepad.update();
+		if(gamepad.isButtonDown(Gamepad.BUTTON_A)) {
+			System.out.println("Pressed!");
 		}
 		player.getDirection().x = 0f;
 		player.getDirection().y = 0f;
