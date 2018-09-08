@@ -65,6 +65,7 @@ public class Game {
 		stop();
 	}
 	private void update() {
+		Gamepads.update();
 		scene.update();
 		Time.addToUPS();
 	}

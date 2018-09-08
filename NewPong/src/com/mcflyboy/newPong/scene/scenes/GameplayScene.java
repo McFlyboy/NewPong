@@ -9,7 +9,6 @@ import com.mcflyboy.newPong.graphics.model.models.StageModel;
 import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
 import com.mcflyboy.newPong.input.devices.Gamepad;
 import com.mcflyboy.newPong.input.devices.Gamepads;
-import com.mcflyboy.newPong.input.devices.Keyboard;
 import com.mcflyboy.newPong.math.Color3f;
 import com.mcflyboy.newPong.math.Vector2f;
 import com.mcflyboy.newPong.math.collision.AABB;
@@ -40,11 +39,9 @@ public class GameplayScene extends Scene {
 	}
 	@Override
 	protected void update(float deltaTime) {
-		if(Keyboard.isKeyPressed(Keyboard.KEY_ESCAPE)) {
+		if(gamepad.isButtonPressed(Gamepad.BUTTON_START)) {
 			Window.close();
 		}
-		Gamepads.update();
-		player.getDirection().x = 0f;
 		player.getDirection().y = gamepad.getAxisState(Gamepad.AXIS_LEFT_Y) * 2f;
 		
 		//X-axis collision

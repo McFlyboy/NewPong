@@ -25,7 +25,7 @@ public abstract class GameEntity extends ModelEntity {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	public void changeScore(int points) {
+	public void addToScore(int points) {
 		score += points;
 	}
 	public Vector2f getDirection() {
