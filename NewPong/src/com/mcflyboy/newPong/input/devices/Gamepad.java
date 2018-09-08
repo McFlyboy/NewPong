@@ -17,7 +17,7 @@ public class Gamepad {
 		BUTTON_Y            = 3,
 		BUTTON_LEFT_BUMPER  = 4,
 		BUTTON_RIGHT_BUMPER = 5,
-		BUTTON_BACK	        = 6,
+		BUTTON_BACK         = 6,
 		BUTTON_START        = 7,
 		BUTTON_GUIDE        = 8,
 		BUTTON_LEFT_THUMB   = 9,
