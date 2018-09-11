@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.graphics.texture;
+package com.mcflyboy.newPong.graphics;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;

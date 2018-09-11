@@ -1,7 +1,7 @@
-package com.mcflyboy.newPong.graphics.shading.shaders;
+package com.mcflyboy.newPong.graphics.shaders;
 
 import com.mcflyboy.newPong.entity.properties.Appearance;
-import com.mcflyboy.newPong.graphics.shading.ShaderProgram;
+import com.mcflyboy.newPong.graphics.ShaderProgram;
 import com.mcflyboy.newPong.math.Vector2f;
 
 public class Shader extends ShaderProgram {

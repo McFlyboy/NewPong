@@ -1,8 +1,6 @@
 package com.mcflyboy.newPong;
 
 import com.mcflyboy.newPong.graphics.Render;
-import com.mcflyboy.newPong.graphics.model.models.SquareModel;
-import com.mcflyboy.newPong.graphics.texture.textures.WhiteTexture;
 import com.mcflyboy.newPong.input.devices.Gamepads;
 import com.mcflyboy.newPong.input.devices.Keyboard;
 import com.mcflyboy.newPong.input.devices.Mouse;
@@ -78,8 +76,6 @@ public class Game {
 	private void stop() {
 		try {
 			scene.dispose();
-			SquareModel.getInstance().dispose();
-			WhiteTexture.getInstance().dispose();
 			Render.terminate();
 			Gamepads.destroy();
 			Window.destroy();

@@ -5,8 +5,7 @@ import static org.lwjgl.opengl.GL20.*;
 import com.mcflyboy.newPong.entity.entities.AppearanceEntity;
 import com.mcflyboy.newPong.entity.entities.ModelEntity;
 import com.mcflyboy.newPong.entity.properties.appearances.ModelAppearance;
-import com.mcflyboy.newPong.graphics.model.Model;
-import com.mcflyboy.newPong.graphics.shading.shaders.Shader;
+import com.mcflyboy.newPong.graphics.shaders.Shader;
 import com.mcflyboy.newPong.math.Color3f;
 
 public class Render {

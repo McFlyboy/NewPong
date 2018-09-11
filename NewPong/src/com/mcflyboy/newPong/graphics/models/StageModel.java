@@ -1,6 +1,6 @@
-package com.mcflyboy.newPong.graphics.model.models;
+package com.mcflyboy.newPong.graphics.models;
 
-import com.mcflyboy.newPong.graphics.model.Model;
+import com.mcflyboy.newPong.graphics.Model;
 
 public class StageModel {
 	private static Model instance;

@@ -1,6 +1,8 @@
 package com.mcflyboy.newPong.scene.scenes;
 
 import com.mcflyboy.newPong.graphics.Render;
+import com.mcflyboy.newPong.graphics.models.SquareModel;
+import com.mcflyboy.newPong.graphics.textures.WhiteTexture;
 import com.mcflyboy.newPong.scene.Scene;
 import com.mcflyboy.newPong.timing.Timer;
 
@@ -23,5 +25,7 @@ public class MasterScene extends Scene {
 	@Override
 	public void dispose() {
 		gameplay.dispose();
+		SquareModel.getInstance().dispose();
+		WhiteTexture.getInstance().dispose();
 	}
 }

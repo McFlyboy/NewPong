@@ -7,13 +7,13 @@ import com.mcflyboy.newPong.math.Vector2f;
 
 public class AABB {
 	public static boolean checkMoveXIntersection(GameEntity entity1, GameEntity entity2, float deltaTime) {
-		return innerCheck(entity1.getPosition().getAdd(new Vector2f(entity1.getDirection().x * deltaTime, 0f)), entity2.getPosition().getAdd(new Vector2f(entity2.getDirection().x * deltaTime, 0f)), entity1.getAppearance(), entity2.getAppearance());
+		return innerCheck(entity1.getPosition().getAdd(new Vector2f(entity1.getVelocity().x * deltaTime, 0f)), entity2.getPosition().getAdd(new Vector2f(entity2.getVelocity().x * deltaTime, 0f)), entity1.getAppearance(), entity2.getAppearance());
 	}
 	public static boolean checkMoveYIntersection(GameEntity entity1, GameEntity entity2, float deltaTime) {
-		return innerCheck(entity1.getPosition().getAdd(new Vector2f(0f, entity1.getDirection().y * deltaTime)), entity2.getPosition().getAdd(new Vector2f(0f, entity2.getDirection().y * deltaTime)), entity1.getAppearance(), entity2.getAppearance());
+		return innerCheck(entity1.getPosition().getAdd(new Vector2f(0f, entity1.getVelocity().y * deltaTime)), entity2.getPosition().getAdd(new Vector2f(0f, entity2.getVelocity().y * deltaTime)), entity1.getAppearance(), entity2.getAppearance());
 	}
 	public static boolean checkMoveIntersection(GameEntity entity1, GameEntity entity2, float deltaTime) {
-		return innerCheck(entity1.getPosition().getAdd(entity1.getDirection().getMul(deltaTime)), entity2.getPosition().getAdd(entity2.getDirection().getMul(deltaTime)), entity1.getAppearance(), entity2.getAppearance());
+		return innerCheck(entity1.getPosition().getAdd(entity1.getVelocity().getMul(deltaTime)), entity2.getPosition().getAdd(entity2.getVelocity().getMul(deltaTime)), entity1.getAppearance(), entity2.getAppearance());
 	}
 	public static boolean checkIntersection(AppearanceEntity entity1, AppearanceEntity entity2) {
 		return innerCheck(entity1.getPosition(), entity2.getPosition(), entity1.getAppearance(), entity2.getAppearance());

@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.graphics.shading;
+package com.mcflyboy.newPong.graphics;
 
 import static org.lwjgl.opengl.GL20.*;
 

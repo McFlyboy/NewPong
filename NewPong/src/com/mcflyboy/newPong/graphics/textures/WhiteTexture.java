@@ -1,8 +1,8 @@
-package com.mcflyboy.newPong.graphics.texture.textures;
+package com.mcflyboy.newPong.graphics.textures;
 
 import java.awt.image.BufferedImage;
 
-import com.mcflyboy.newPong.graphics.texture.Texture;
+import com.mcflyboy.newPong.graphics.Texture;
 
 public class WhiteTexture {
 	private static Texture instance;

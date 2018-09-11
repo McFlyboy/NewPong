@@ -1,4 +1,4 @@
-package com.mcflyboy.newPong.graphics.model;
+package com.mcflyboy.newPong.graphics;
 
 import static org.lwjgl.opengl.GL30.*;
 
