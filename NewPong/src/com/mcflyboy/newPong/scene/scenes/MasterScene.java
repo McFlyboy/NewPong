@@ -5,12 +5,13 @@ import com.mcflyboy.newPong.graphics.models.SquareModel;
 import com.mcflyboy.newPong.graphics.textures.WhiteTexture;
 import com.mcflyboy.newPong.scene.Scene;
 import com.mcflyboy.newPong.timing.Timer;
+import com.mcflyboy.newPong.util.ColorScheme;
 
 public class MasterScene extends Scene {
 	private GameplayScene gameplay;
 	public MasterScene(Timer baseTimer) {
 		super(baseTimer);
-		Render.setClearColor(0.0125f, 0.05f, 0f);
+		Render.setClearColor(ColorScheme.getBackground());
 		gameplay = new GameplayScene(super.getTimer());
 		gameplay.start();
 	}

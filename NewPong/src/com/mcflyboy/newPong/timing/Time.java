@@ -31,12 +31,12 @@ public class Time {
 			frameCount = 0;
 			ups = updateCount;
 			updateCount = 0;
-			if(fps < 100 || ups < 600) {
+			/*if(fps < 100 || ups < 600) {
 				System.err.println("FPS: " + fps + " - UPS: " + ups);
 			}
 			else {
 				System.out.println("FPS: " + fps + " - UPS: " + ups);
-			}
+			}*/
 		}
 	}
 }

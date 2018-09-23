@@ -49,20 +49,45 @@ public class GameplayScene extends Scene {
 		
 		//X-axis collision
 		if(AABB.checkMoveXIntersection(player, ball, deltaTime)) {
-			if((player.getPosition().x - ball.getPosition().x) * ball.getVelocity().x > 0f) {
-				ball.getVelocity().x *= -1;
+			if(player.getVelocity().x != 0f) {
+				ball.getVelocity().x = player.getVelocity().x;
+				System.out.println("Crashing");
 			}
-			ball.getVelocity().x = player.getVelocity().x;
+			else {
+				if((player.getPosition().x - ball.getPosition().x) * ball.getVelocity().x > 0f) {
+					ball.getVelocity().x *= -1;
+				}
+			}
 		}
+		else {
+			System.out.println("Not crashing");
+		}
+		if(AABB.checkIntersection(player, ball)) {
+			System.out.println("This is the final frame");
+		}
+		System.out.println(ball.getVelocity().x * deltaTime == player.getVelocity().x * deltaTime);
+		System.out.println(ball.getPosition().x);
+		System.out.println(player.getPosition().x);
 		ball.getPosition().x += ball.getVelocity().x * deltaTime;
 		player.getPosition().x += player.getVelocity().x * deltaTime;
 		
+		if(AABB.checkIntersection(player, ball)) {
+			System.out.println("Smash!");
+			System.out.println(ball.getPosition().x);
+			System.out.println(player.getPosition().x);
+			Window.close();
+		}
+		
 		//Y-axis collision
 		if(AABB.checkMoveYIntersection(player, ball, deltaTime)) {
-			if((player.getPosition().y - ball.getPosition().y) * ball.getVelocity().y > 0f) {
-				ball.getVelocity().y *= -1;
+			if(player.getVelocity().y != 0f) {
+				ball.getVelocity().y = player.getVelocity().y;
 			}
-			ball.getVelocity().y = player.getVelocity().y;
+			else {
+				if((player.getPosition().y - ball.getPosition().y) * ball.getVelocity().y > 0f) {
+					ball.getVelocity().y *= -1;
+				}
+			}
 		}
 		ball.getPosition().y += ball.getVelocity().y * deltaTime;
 		player.getPosition().y += player.getVelocity().y * deltaTime;
