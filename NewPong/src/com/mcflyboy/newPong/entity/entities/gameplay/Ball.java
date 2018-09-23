@@ -11,7 +11,7 @@ public class Ball extends GameEntity {
 	public Ball(Vector2f startPosition) {
 		super();
 		acceleration = new Vector2f();
-		resetBall(startPosition);
+		reset(startPosition);
 	}
 	public Vector2f getAcceleration() {
 		return acceleration;
@@ -23,7 +23,7 @@ public class Ball extends GameEntity {
 		acceleration = super.getVelocity().getNegate().getMul(0.4f);
 		super.getVelocity().add(acceleration.getMul(deltaTime));
 	}
-	public void resetBall(Vector2f position) {
+	public void reset(Vector2f position) {
 		super.setPosition(new Vector2f(position));
 		super.setVelocity(new Vector2f(-2f, -0.5f));
 	}

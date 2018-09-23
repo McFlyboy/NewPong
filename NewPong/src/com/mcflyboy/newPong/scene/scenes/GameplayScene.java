@@ -51,7 +51,6 @@ public class GameplayScene extends Scene {
 		if(AABB.checkMoveXIntersection(player, ball, deltaTime)) {
 			if(player.getVelocity().x != 0f) {
 				ball.getVelocity().x = player.getVelocity().x;
-				System.out.println("Crashing");
 			}
 			else {
 				if((player.getPosition().x - ball.getPosition().x) * ball.getVelocity().x > 0f) {
@@ -59,23 +58,15 @@ public class GameplayScene extends Scene {
 				}
 			}
 		}
-		else {
-			System.out.println("Not crashing");
-		}
-		if(AABB.checkIntersection(player, ball)) {
-			System.out.println("This is the final frame");
-		}
-		System.out.println(ball.getVelocity().x * deltaTime == player.getVelocity().x * deltaTime);
-		System.out.println(ball.getPosition().x);
-		System.out.println(player.getPosition().x);
 		ball.getPosition().x += ball.getVelocity().x * deltaTime;
 		player.getPosition().x += player.getVelocity().x * deltaTime;
-		
 		if(AABB.checkIntersection(player, ball)) {
-			System.out.println("Smash!");
-			System.out.println(ball.getPosition().x);
-			System.out.println(player.getPosition().x);
-			Window.close();
+			if(ball.getPosition().x - player.getPosition().x > 0f) {
+				ball.getPosition().x = player.getPosition().x + player.getAppearance().getWidth() / 2f + ball.getAppearance().getWidth() / 2f + 0.001f;
+			}
+			else {
+				ball.getPosition().x = player.getPosition().x - player.getAppearance().getWidth() / 2f - ball.getAppearance().getWidth() / 2f - 0.001f;
+			}
 		}
 		
 		//Y-axis collision
@@ -91,6 +82,14 @@ public class GameplayScene extends Scene {
 		}
 		ball.getPosition().y += ball.getVelocity().y * deltaTime;
 		player.getPosition().y += player.getVelocity().y * deltaTime;
+		if(AABB.checkIntersection(player, ball)) {
+			if(ball.getPosition().y - player.getPosition().y > 0f) {
+				ball.getPosition().y = player.getPosition().y + player.getAppearance().getHeight() / 2f + ball.getAppearance().getHeight() / 2f + 0.001f;
+			}
+			else {
+				ball.getPosition().y = player.getPosition().y - player.getAppearance().getHeight() / 2f - ball.getAppearance().getHeight() / 2f - 0.001f;
+			}
+		}
 		
 		//Ball to stage collision
 		if(Math.abs(ball.getPosition().x) >= stage.getModelAppearance().getWidth() / 2f - ball.getAppearance().getWidth() / 2f) {
@@ -112,8 +111,7 @@ public class GameplayScene extends Scene {
 		if(AABB.checkIntersection(player, ball)) {
 			ball.getPosition().x = 0;
 			ball.getPosition().y = stage.getPosition().y;
-			ball.getVelocity().x = -0.5f;
-			ball.getVelocity().y = -0.5f;
+			ball.reset(stage.getPosition());
 		}
 	}
 	@Override
