@@ -6,6 +6,10 @@ import com.mcflyboy.newPong.entity.entities.gameplay.Player;
 import com.mcflyboy.newPong.entity.entities.gameplay.Player.PlayerID;
 import com.mcflyboy.newPong.entity.entities.gameplay.Stage;
 import com.mcflyboy.newPong.graphics.Render;
+import com.mcflyboy.newPong.input.GameController;
+import com.mcflyboy.newPong.input.GameController.InputPart;
+import com.mcflyboy.newPong.input.devices.Gamepad;
+import com.mcflyboy.newPong.input.devices.Gamepads;
 import com.mcflyboy.newPong.input.devices.Keyboard;
 import com.mcflyboy.newPong.math.collision.AABB;
 import com.mcflyboy.newPong.scene.Scene;
@@ -20,8 +24,9 @@ public class GameplayScene extends Scene {
 	public GameplayScene(Timer baseTimer) {
 		super(baseTimer);
 		stage = new Stage();
-		player1 = new Player(PlayerID.PLAYER_1, stage.getPosition().y);
-		player2 = new Player(PlayerID.PLAYER_2, stage.getPosition().y);
+		Gamepad gamepad = Gamepads.createGamepad(0);
+		player1 = new Player(PlayerID.PLAYER_1, new GameController(gamepad, InputPart.BOTH), stage.getPosition().y);
+		player2 = new Player(PlayerID.PLAYER_2, new GameController(null, InputPart.BOTH), stage.getPosition().y);
 		ball = new Ball(stage.getPosition());
 	}
 	@Override
