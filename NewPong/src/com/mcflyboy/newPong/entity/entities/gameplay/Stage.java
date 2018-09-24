@@ -12,7 +12,7 @@ public class Stage extends ModelEntity {
 		super();
 		super.getModelAppearance().setModel(StageModel.getInstance());
 		super.getModelAppearance().setTexture(WhiteTexture.getInstance());
-		super.getModelAppearance().setColor(ColorScheme.getNormal());
+		super.getModelAppearance().setColor(ColorScheme.normal());
 		super.getModelAppearance().setScale(new Vector2f(Window.ASPECT_RATIO, Window.ASPECT_RATIO * 9f / 21f).getMul(0.9f));
 		super.getPosition().y = -0.2f;
 	}

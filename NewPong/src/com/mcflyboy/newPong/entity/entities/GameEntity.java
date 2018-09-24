@@ -13,7 +13,7 @@ public abstract class GameEntity extends ModelEntity {
 		super();
 		ModelAppearance ma = super.getModelAppearance();
 		ma.setScale(0.03f);
-		ma.setColor(ColorScheme.getNormal());
+		ma.setColor(ColorScheme.normal());
 		ma.setModel(SquareModel.getInstance());
 		ma.setTexture(WhiteTexture.getInstance());
 		score = 0;

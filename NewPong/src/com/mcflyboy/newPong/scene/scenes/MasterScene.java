@@ -11,7 +11,7 @@ public class MasterScene extends Scene {
 	private GameplayScene gameplay;
 	public MasterScene(Timer baseTimer) {
 		super(baseTimer);
-		Render.setClearColor(ColorScheme.getBackground());
+		Render.setClearColor(ColorScheme.background());
 		gameplay = new GameplayScene(super.getTimer());
 		gameplay.start();
 	}

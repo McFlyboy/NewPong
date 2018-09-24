@@ -8,8 +8,6 @@ import com.mcflyboy.newPong.entity.entities.gameplay.Stage;
 import com.mcflyboy.newPong.graphics.Render;
 import com.mcflyboy.newPong.input.GameController;
 import com.mcflyboy.newPong.input.GameController.InputPart;
-import com.mcflyboy.newPong.input.devices.Gamepad;
-import com.mcflyboy.newPong.input.devices.Gamepads;
 import com.mcflyboy.newPong.input.devices.Keyboard;
 import com.mcflyboy.newPong.math.collision.AABB;
 import com.mcflyboy.newPong.scene.Scene;
@@ -18,15 +16,14 @@ import com.mcflyboy.newPong.timing.Timer;
 public class GameplayScene extends Scene {
 	private Player player1;
 	private Player player2;
-	private Player currentPlayer;
+	private Player currentColCheckPlayer;
 	private Ball ball;
 	private Stage stage;
 	public GameplayScene(Timer baseTimer) {
 		super(baseTimer);
 		stage = new Stage();
-		Gamepad gamepad = Gamepads.createGamepad(0);
-		player1 = new Player(PlayerID.PLAYER_1, new GameController(gamepad, InputPart.BOTH), stage.getPosition().y);
-		player2 = new Player(PlayerID.PLAYER_2, new GameController(null, InputPart.BOTH), stage.getPosition().y);
+		player1 = new Player(PlayerID.PLAYER_1, new GameController(null, InputPart.LEFT_PART), stage.getPosition().y);
+		player2 = new Player(PlayerID.PLAYER_2, new GameController(null, InputPart.RIGHT_PART), stage.getPosition().y);
 		ball = new Ball(stage.getPosition());
 	}
 	@Override
@@ -37,58 +34,53 @@ public class GameplayScene extends Scene {
 		player1.updateVelocity();
 		player2.updateVelocity();
 		ball.updateVelocity(deltaTime);
-		if(ball.getPosition().x < 0f) {
-			currentPlayer = player1;
-		}
-		else {
-			currentPlayer = player2;
-		}
+		currentColCheckPlayer = ball.getPosition().x < 0f ? player1 : player2;
 		
 		//X-axis collision
-		if(AABB.checkMoveXIntersection(currentPlayer, ball, deltaTime)) {
-			if(currentPlayer.getVelocity().x != 0f) {
-				ball.getVelocity().x = currentPlayer.getVelocity().x;
+		if(AABB.checkMoveXIntersection(currentColCheckPlayer, ball, deltaTime)) {
+			if(currentColCheckPlayer.getVelocity().x != 0f) {
+				ball.getVelocity().x = currentColCheckPlayer.getVelocity().x;
 			}
 			else {
-				if((currentPlayer.getPosition().x - ball.getPosition().x) * ball.getVelocity().x > 0f) {
+				if((currentColCheckPlayer.getPosition().x - ball.getPosition().x) * ball.getVelocity().x > 0f) {
 					ball.getVelocity().x *= -1;
 				}
 			}
-			ball.getVelocity().y += currentPlayer.getVelocity().y * 0.2f;
+			ball.getVelocity().y += currentColCheckPlayer.getVelocity().y * 0.2f;
 		}
 		ball.getPosition().x += ball.getVelocity().x * deltaTime;
 		player1.getPosition().x += player1.getVelocity().x * deltaTime;
 		player2.getPosition().x += player2.getVelocity().x * deltaTime;
-		if(AABB.checkIntersection(currentPlayer, ball)) {
-			if(ball.getPosition().x - currentPlayer.getPosition().x > 0f) {
-				ball.getPosition().x = currentPlayer.getPosition().x + currentPlayer.getAppearance().getWidth() / 2f + ball.getAppearance().getWidth() / 2f + 0.001f;
+		if(AABB.checkIntersection(currentColCheckPlayer, ball)) {
+			if(ball.getPosition().x - currentColCheckPlayer.getPosition().x > 0f) {
+				ball.getPosition().x = currentColCheckPlayer.getPosition().x + currentColCheckPlayer.getAppearance().getWidth() / 2f + ball.getAppearance().getWidth() / 2f + 0.001f;
 			}
 			else {
-				ball.getPosition().x = currentPlayer.getPosition().x - currentPlayer.getAppearance().getWidth() / 2f - ball.getAppearance().getWidth() / 2f - 0.001f;
+				ball.getPosition().x = currentColCheckPlayer.getPosition().x - currentColCheckPlayer.getAppearance().getWidth() / 2f - ball.getAppearance().getWidth() / 2f - 0.001f;
 			}
 		}
 		
 		//Y-axis collision
-		if(AABB.checkMoveYIntersection(currentPlayer, ball, deltaTime)) {
-			if(currentPlayer.getVelocity().y != 0f) {
-				ball.getVelocity().y = currentPlayer.getVelocity().y;
+		if(AABB.checkMoveYIntersection(currentColCheckPlayer, ball, deltaTime)) {
+			if(currentColCheckPlayer.getVelocity().y != 0f) {
+				ball.getVelocity().y = currentColCheckPlayer.getVelocity().y;
 			}
 			else {
-				if((currentPlayer.getPosition().y - ball.getPosition().y) * ball.getVelocity().y > 0f) {
+				if((currentColCheckPlayer.getPosition().y - ball.getPosition().y) * ball.getVelocity().y > 0f) {
 					ball.getVelocity().y *= -1;
 				}
 			}
-			ball.getVelocity().x += currentPlayer.getVelocity().x * 0.2f;
+			ball.getVelocity().x += currentColCheckPlayer.getVelocity().x * 0.2f;
 		}
 		ball.getPosition().y += ball.getVelocity().y * deltaTime;
 		player1.getPosition().y += player1.getVelocity().y * deltaTime;
 		player2.getPosition().y += player2.getVelocity().y * deltaTime;
-		if(AABB.checkIntersection(currentPlayer, ball)) {
-			if(ball.getPosition().y - currentPlayer.getPosition().y > 0f) {
-				ball.getPosition().y = currentPlayer.getPosition().y + currentPlayer.getAppearance().getHeight() / 2f + ball.getAppearance().getHeight() / 2f + 0.001f;
+		if(AABB.checkIntersection(currentColCheckPlayer, ball)) {
+			if(ball.getPosition().y - currentColCheckPlayer.getPosition().y > 0f) {
+				ball.getPosition().y = currentColCheckPlayer.getPosition().y + currentColCheckPlayer.getAppearance().getHeight() / 2f + ball.getAppearance().getHeight() / 2f + 0.001f;
 			}
 			else {
-				ball.getPosition().y = currentPlayer.getPosition().y - currentPlayer.getAppearance().getHeight() / 2f - ball.getAppearance().getHeight() / 2f - 0.001f;
+				ball.getPosition().y = currentColCheckPlayer.getPosition().y - currentColCheckPlayer.getAppearance().getHeight() / 2f - ball.getAppearance().getHeight() / 2f - 0.001f;
 			}
 		}
 		
@@ -109,7 +101,7 @@ public class GameplayScene extends Scene {
 		}
 		
 		//Check if ball is being crushed
-		if(AABB.checkIntersection(currentPlayer, ball)) {
+		if(AABB.checkIntersection(currentColCheckPlayer, ball)) {
 			ball.reset(stage.getPosition());
 		}
 		
