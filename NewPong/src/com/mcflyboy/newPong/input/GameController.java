@@ -24,17 +24,17 @@ public class GameController {
 		}
 		return y;
 	}
-	public boolean isLeftDown() {
+	public boolean isLeftPressed() {
 		if(gamepad != null) {
-			return gamepad.isButtonDown(part != InputPart.LEFT_PART ? Gamepad.BUTTON_X : Gamepad.BUTTON_DPAD_LEFT);
+			return gamepad.isButtonPressed(part != InputPart.LEFT_PART ? Gamepad.BUTTON_X : Gamepad.BUTTON_DPAD_LEFT);
 		}
-		return Keyboard.isKeyDown(part != InputPart.RIGHT_PART ? Keyboard.KEY_A : Keyboard.KEY_LEFT);
+		return Keyboard.isKeyPressed(part != InputPart.RIGHT_PART ? Keyboard.KEY_A : Keyboard.KEY_LEFT);
 	}
-	public boolean isRightDown() {
+	public boolean isRightPressed() {
 		if(gamepad != null) {
-			return gamepad.isButtonDown(part != InputPart.LEFT_PART ? Gamepad.BUTTON_B : Gamepad.BUTTON_DPAD_RIGHT);
+			return gamepad.isButtonPressed(part != InputPart.LEFT_PART ? Gamepad.BUTTON_B : Gamepad.BUTTON_DPAD_RIGHT);
 		}
-		return Keyboard.isKeyDown(part != InputPart.RIGHT_PART ? Keyboard.KEY_D : Keyboard.KEY_RIGHT);
+		return Keyboard.isKeyPressed(part != InputPart.RIGHT_PART ? Keyboard.KEY_D : Keyboard.KEY_RIGHT);
 	}
 	public enum InputPart {
 		LEFT_PART, RIGHT_PART, BOTH;

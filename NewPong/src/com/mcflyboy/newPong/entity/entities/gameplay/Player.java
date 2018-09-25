@@ -25,10 +25,10 @@ public class Player extends GameEntity {
 	public void updateVelocity() {
 		super.getVelocity().y = controller.getYAxis();
 		super.getVelocity().x = 0f;
-		if(controller.isRightDown()) {
+		if(controller.isRightPressed()) {
 			super.getVelocity().x += 1f;
 		}
-		if(controller.isLeftDown()) {
+		if(controller.isLeftPressed()) {
 			super.getVelocity().x -= 1f;
 		}
 		super.getVelocity().mul(3f);
