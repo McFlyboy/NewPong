@@ -14,7 +14,7 @@ public class Player extends GameEntity {
 		super.getAppearance().getScale().y = 0.1f;
 		super.getPosition().y = startYPosition;
 		this.id = id;
-		if(id == PlayerID.PLAYER_1) {
+		if(id == PlayerID.PLAYER_LEFT) {
 			super.getPosition().x = -1.35f;
 		}
 		else {
@@ -34,6 +34,6 @@ public class Player extends GameEntity {
 		super.getVelocity().mul(3f);
 	}
 	public enum PlayerID {
-		PLAYER_1, PLAYER_2;
+		PLAYER_LEFT, PLAYER_RIGHT;
 	}
 }
